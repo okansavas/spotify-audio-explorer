@@ -4,15 +4,15 @@ import pandas as pd
 
 def plot_audio_features(df: pd.DataFrame):
     """
-    Danceability ve Energy değerleri arasında güvenli bir scatter plot çizer,
-    eksik verileri ve hataları filtreler.
+    Safely plots a scatter plot for danceability vs energy,
+    filtering missing values and handling exceptions.
     """
-    # Eksik veri kontrolü
+    # Check for required columns
     required_cols = ['danceability', 'energy']
     if not all(col in df.columns for col in required_cols):
-        raise ValueError("Gerekli sütunlar veri setinde bulunamadı!")
+        raise ValueError("Required columns not found in the dataset!")
         
-    # Boş değerleri temizle
+    # Drop missing values
     clean_df = df.dropna(subset=required_cols)
     
     try:
@@ -29,10 +29,10 @@ def plot_audio_features(df: pd.DataFrame):
         plt.ylabel('Energy')
         plt.grid(True, linestyle='--', alpha=0.5)
         
-        # Grafiği kaydet
+        # Save the plot
         plt.savefig('outputs/scatter_plot.png', bbox_inches='tight')
         plt.close()
-        print("Grafik başarıyla 'outputs/scatter_plot.png' olarak kaydedildi.")
+        print("Plot successfully saved as 'outputs/scatter_plot.png'.")
         
     except Exception as e:
-        print(f"Grafik çizilirken bir hata oluştu: {e}")
+        print(f"An error occurred while plotting: {e}")
